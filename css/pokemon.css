@@ -1,0 +1,93 @@
+/* ============================================
+   POKEMON - Cartes et listes de Pokémon
+   ============================================ */
+
+.pokemon-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 50px;
+    margin-bottom: 10px;
+}
+
+.pokemon-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: move;
+    transition: all 0.2s ease;
+}
+
+.pokemon-item:hover {
+    background: var(--hover-bg);
+    transform: translateX(4px);
+}
+
+.pokemon-item.dead {
+    opacity: 0.6;
+}
+
+.pokemon-item.dead span {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+.pokemon-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    /* Sprites home sont en haute résolution, pas besoin de pixelated */
+    image-rendering: auto;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.pokemon-item span {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-right: 4px;
+}
+
+.pokemon-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.pokemon-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.pokemon-stats-inline {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    flex-wrap: wrap;
+}
+
+.pokemon-level {
+    background: #0969da;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.pokemon-hp {
+    background: #cf222e;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 10px;
+    white-space: nowrap;
+}

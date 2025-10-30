@@ -1,0 +1,16 @@
+/* ============================================
+   FICHIER CSS PRINCIPAL
+   Importe tous les modules CSS
+   ============================================ */
+
+@import url('variables.css');
+@import url('base.css');
+@import url('header.css');
+@import url('buttons.css');
+@import url('tabs.css');
+@import url('games.css');
+@import url('pokemon.css');
+@import url('modals.css');
+@import url('stats.css');
+@import url('pokemon-details.css');
+@import url('responsive.css');

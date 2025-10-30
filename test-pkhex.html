@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PKHeX Backend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .test-section h2 {
+            color: #444;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f8f9fa;
+        }
+        
+        .upload-area.dragover {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .results {
+            margin-top: 20px;
+        }
+        
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .result-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .result-card pre {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .pokemon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .pokemon-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .pokemon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .pokemon-card img {
+            width: 80px;
+            height: 80px;
+            image-rendering: pixelated;
+        }
+        
+        .pokemon-card h4 {
+            margin: 10px 0 5px;
+            color: #333;
+        }
+        
+        .pokemon-card .level {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .hp-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .hp-fill {
+            height: 100%;
+            transition: width 0.3s;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .status.alive {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status.dead {
+            background: #f44336;
+            color: white;
+        }
+        
+        .log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        
+        .log-entry {
+            margin: 5px 0;
+        }
+        
+        .log-entry.success { color: #4CAF50; }
+        .log-entry.error { color: #f44336; }
+        .log-entry.info { color: #2196F3; }
+        .log-entry.warning { color: #FF9800; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test PKHeX Backend</h1>
+        <p class="subtitle">Testez l'import de fichiers de sauvegarde Pokémon</p>
+        
+        <div class="test-section">
+            <h2>📂 Sélectionner un fichier .sav</h2>
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                <div style="font-size: 48px; margin-bottom: 10px;">📁</div>
+                <p style="font-size: 18px; color: #666; margin-bottom: 10px;">
+                    Cliquez pour sélectionner ou glissez-déposez un fichier .sav
+                </p>
+                <p style="font-size: 14px; color: #999;">
+                    Générations 1-7 supportées<br>
+                    Extensions: .sav, .dst, .dsv, .sa1, .0, .dat
+                </p>
+            </div>
+            <input type="file" id="fileInput" accept=".sav,.dst,.dsv,.sa1,.0,.dat" onchange="handleFileSelect(event)">
+        </div>
+        
+        <div class="test-section">
+            <h2>📊 Console de logs</h2>
+            <div class="log" id="logConsole"></div>
+        </div>
+        
+        <div class="results" id="results"></div>
+    </div>
+    
+    <script src="js/pkhex-backend.js"></script>
+    <script src="js/savParser.js"></script>
+    
+    <script>
+        const logConsole = document.getElementById('logConsole');
+        const results = document.getElementById('results');
+        const uploadArea = document.getElementById('uploadArea');
+        
+        // Logging
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logConsole.appendChild(entry);
+            logConsole.scrollTop = logConsole.scrollHeight;
+            console.log(message);
+        }
+        
+        // Drag & Drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                processFile(file);
+            }
+        });
+        
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+        
+        function processFile(file) {
+            log(`📂 Fichier sélectionné: ${file.name} (${file.size} bytes)`, 'info');
+            
+            const validExtensions = ['.sav', '.dst', '.dsv', '.sa1', '.0', '.dat'];
+            const fileName = file.name.toLowerCase();
+            const isValid = validExtensions.some(ext => fileName.endsWith(ext));
+            
+            if (!isValid) {
+                log('❌ Erreur: Extension non supportée', 'error');
+                log('Extensions valides: .sav, .dst, .dsv, .sa1, .0, .dat', 'warning');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const arrayBuffer = e.target.result;
+                    log('✅ Fichier chargé en mémoire', 'success');
+                    
+                    // Détecter le type
+                    log('🔍 Détection du type de sauvegarde...', 'info');
+                    const saveInfo = PKHeXBackend.detectSaveType(arrayBuffer);
+                    log(`📊 Type détecté: ${saveInfo.game} (Gen ${saveInfo.generation})`, 'success');
+                    
+                    // Parser
+                    log('⚙️ Parsing de la sauvegarde...', 'info');
+                    const saveData = PKHeXBackend.parseSaveFile(arrayBuffer);
+                    log(`✅ Parsing réussi! ${saveData.partyCount} Pokémon trouvés`, 'success');
+                    
+                    // Afficher les résultats
+                    displayResults(saveData);
+                    
+                } catch (error) {
+                    log(`❌ Erreur: ${error.message}`, 'error');
+                    console.error(error);
+                }
+            };
+            
+            reader.onerror = function() {
+                log('❌ Erreur lors de la lecture du fichier', 'error');
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+        
+        function displayResults(saveData) {
+            results.innerHTML = '';
+            
+            // Info de la save
+            const infoCard = document.createElement('div');
+            infoCard.className = 'result-card';
+            infoCard.innerHTML = `
+                <h3>ℹ️ Informations de la sauvegarde</h3>
+                <pre>${JSON.stringify(saveData.saveInfo, null, 2)}</pre>
+            `;
+            results.appendChild(infoCard);
+            
+            // Info du joueur
+            if (saveData.player) {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'result-card';
+                playerCard.innerHTML = `
+                    <h3>👤 Informations du joueur</h3>
+                    <pre>${JSON.stringify(saveData.player, null, 2)}</pre>
+                `;
+                results.appendChild(playerCard);
+            }
+            
+            // Pokémon
+            if (saveData.team && saveData.team.length > 0) {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'result-card';
+                teamCard.innerHTML = `<h3>🎯 Équipe Pokémon (${saveData.team.length})</h3>`;
+                
+                const grid = document.createElement('div');
+                grid.className = 'pokemon-grid';
+                
+                saveData.team.forEach(pokemon => {
+                    const hpPercent = (pokemon.hp / pokemon.maxHp * 100).toFixed(0);
+                    const hpColor = pokemon.isAlive ? 
+                        (hpPercent > 50 ? '#4CAF50' : '#FF9800') : '#f44336';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'pokemon-card';
+                    card.innerHTML = `
+                        <img src="${pokemon.sprite}" alt="${pokemon.name}" 
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'80\\' height=\\'80\\'%3E%3Crect fill=\\'%23ddd\\' width=\\'80\\' height=\\'80\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%23999\\'%3E?%3C/text%3E%3C/svg%3E'">
+                        <h4>${pokemon.name}</h4>
+                        <div class="level">Niveau ${pokemon.level}</div>
+                        <div class="hp-bar">
+                            <div class="hp-fill" style="width: ${hpPercent}%; background: ${hpColor}"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #666;">${pokemon.hp}/${pokemon.maxHp} HP</div>
+                        <div class="status ${pokemon.isAlive ? 'alive' : 'dead'}">
+                            ${pokemon.isAlive ? '✅ Vivant' : '💀 K.O.'}
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                teamCard.appendChild(grid);
+                results.appendChild(teamCard);
+            }
+            
+            // Données brutes
+            const rawCard = document.createElement('div');
+            rawCard.className = 'result-card';
+            rawCard.innerHTML = `
+                <h3>📄 Données brutes (JSON)</h3>
+                <pre>${JSON.stringify(saveData, null, 2)}</pre>
+            `;
+            results.appendChild(rawCard);
+            
+            log('✨ Résultats affichés', 'success');
+        }
+        
+        // Message de bienvenue
+        log('🎮 PKHeX Backend Test Console initialisée', 'success');
+        log('📁 Sélectionnez un fichier .sav pour commencer', 'info');
+    </script>
+</body>
+</html>

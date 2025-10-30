@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PokeAPI Integration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f6f8fa;
+        }
+        h1 {
+            color: #24292f;
+            border-bottom: 3px solid #0969da;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .success {
+            background: #dafbe1;
+            color: #0f5323;
+            border-left: 4px solid #2ea44f;
+        }
+        .error {
+            background: #ffebe9;
+            color: #cf222e;
+            border-left: 4px solid #cf222e;
+        }
+        .sprite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .sprite-item {
+            text-align: center;
+            padding: 10px;
+            background: #f6f8fa;
+            border-radius: 6px;
+        }
+        .sprite-item img {
+            width: 80px;
+            height: 80px;
+            image-rendering: pixelated;
+        }
+        .sprite-label {
+            font-size: 12px;
+            color: #57606a;
+            margin-top: 5px;
+        }
+        button {
+            background: #0969da;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0860ca;
+        }
+        .loading {
+            color: #0969da;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test d'intégration PokeAPI</h1>
+    
+    <div class="test-section">
+        <h2>✅ Test 1: Chargement du module</h2>
+        <div id="test1"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎨 Test 2: Récupération des sprites</h2>
+        <button onclick="testSprites()">Tester les sprites</button>
+        <div id="test2"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔍 Test 3: Affichage de plusieurs Pokémon</h2>
+        <button onclick="testMultiplePokemon()">Afficher 10 Pokémon aléatoires</button>
+        <div id="test3"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Test 4: Données complètes d'un Pokémon</h2>
+        <button onclick="testPokemonData()">Récupérer données de Pikachu</button>
+        <div id="test4"></div>
+    </div>
+
+    <script src="js/pokeapi.js"></script>
+    <script>
+        // Test 1: Vérifier que le module est chargé
+        function test1() {
+            const result = document.getElementById('test1');
+            if (typeof window.PokeAPI !== 'undefined') {
+                result.innerHTML = '<div class="test-result success">✅ Module PokeAPI chargé avec succès!</div>';
+                
+                // Lister les fonctions disponibles
+                const functions = Object.keys(window.PokeAPI);
+                result.innerHTML += `<p>Fonctions disponibles: ${functions.join(', ')}</p>`;
+            } else {
+                result.innerHTML = '<div class="test-result error">❌ Module PokeAPI non chargé!</div>';
+            }
+        }
+        
+        // Test 2: Tester les sprites
+        function testSprites() {
+            const result = document.getElementById('test2');
+            result.innerHTML = '<div class="loading">⏳ Chargement des sprites...</div>';
+            
+            const pokemonId = 25; // Pikachu
+            const sprites = window.PokeAPI.getAllPokemonSprites(pokemonId);
+            
+            let html = '<div class="test-result success">✅ Sprites récupérés avec succès!</div>';
+            html += '<div class="sprite-grid">';
+            
+            html += `
+                <div class="sprite-item">
+                    <img src="${sprites.front_default}" alt="Normal">
+                    <div class="sprite-label">Normal</div>
+                </div>
+                <div class="sprite-item">
+                    <img src="${sprites.front_shiny}" alt="Shiny">
+                    <div class="sprite-label">✨ Shiny</div>
+                </div>
+                <div class="sprite-item">
+                    <img src="${sprites.back_default}" alt="Dos">
+                    <div class="sprite-label">Dos</div>
+                </div>
+                <div class="sprite-item">
+                    <img src="${sprites.back_shiny}" alt="Dos Shiny">
+                    <div class="sprite-label">✨ Dos Shiny</div>
+                </div>
+            `;
+            
+            html += '</div>';
+            result.innerHTML = html;
+        }
+        
+        // Test 3: Afficher plusieurs Pokémon
+        function testMultiplePokemon() {
+            const result = document.getElementById('test3');
+            result.innerHTML = '<div class="loading">⏳ Chargement de 10 Pokémon...</div>';
+            
+            let html = '<div class="test-result success">✅ Pokémon chargés!</div>';
+            html += '<div class="sprite-grid">';
+            
+            // Générer 10 IDs aléatoires entre 1 et 151 (Gen 1)
+            const randomIds = Array.from({length: 10}, () => Math.floor(Math.random() * 151) + 1);
+            
+            randomIds.forEach(id => {
+                const spriteUrl = window.PokeAPI.getPokemonSpriteUrl(id);
+                html += `
+                    <div class="sprite-item">
+                        <img src="${spriteUrl}" alt="Pokemon #${id}">
+                        <div class="sprite-label">#${id}</div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            result.innerHTML = html;
+        }
+        
+        // Test 4: Récupérer les données complètes
+        async function testPokemonData() {
+            const result = document.getElementById('test4');
+            result.innerHTML = '<div class="loading">⏳ Récupération des données de Pikachu...</div>';
+            
+            try {
+                const data = await window.PokeAPI.fetchPokemonData(25);
+                
+                if (data) {
+                    let html = '<div class="test-result success">✅ Données récupérées avec succès!</div>';
+                    html += `
+                        <div style="background: #f6f8fa; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                            <h3>Pikachu (#${data.id})</h3>
+                            <p><strong>Types:</strong> ${data.types.join(', ')}</p>
+                            <p><strong>Taille:</strong> ${data.height / 10}m</p>
+                            <p><strong>Poids:</strong> ${data.weight / 10}kg</p>
+                            <h4>Stats de base:</h4>
+                            <ul>
+                                <li>HP: ${data.stats.hp}</li>
+                                <li>Attack: ${data.stats.attack}</li>
+                                <li>Defense: ${data.stats.defense}</li>
+                                <li>Special Attack: ${data.stats['special-attack']}</li>
+                                <li>Special Defense: ${data.stats['special-defense']}</li>
+                                <li>Speed: ${data.stats.speed}</li>
+                            </ul>
+                            <div class="sprite-grid">
+                                <div class="sprite-item">
+                                    <img src="${data.sprites.official}" alt="Artwork">
+                                    <div class="sprite-label">Artwork Officiel</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    result.innerHTML = html;
+                } else {
+                    result.innerHTML = '<div class="test-result error">❌ Erreur lors de la récupération des données</div>';
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="test-result error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+        
+        // Lancer le test 1 au chargement
+        window.onload = function() {
+            test1();
+        };
+    </script>
+</body>
+</html>

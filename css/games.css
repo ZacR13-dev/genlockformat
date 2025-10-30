@@ -1,0 +1,103 @@
+/* ============================================
+   GAMES - Cartes de jeux et conteneurs
+   ============================================ */
+
+.main-content {
+    margin-bottom: 30px;
+}
+
+.games-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+}
+
+.games-container::-webkit-scrollbar {
+    height: 12px;
+}
+
+.games-container::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 6px;
+}
+
+.games-container::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.games-container::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+.game-card {
+    background: var(--bg-primary);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex: 0 0 320px;
+    min-width: 320px;
+}
+
+.game-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.game-header h2 {
+    font-size: 20px;
+    margin: 10px 0;
+    color: var(--text-primary);
+}
+
+.game-cover {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.game-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.section {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 15px;
+    border: 2px solid var(--border-color);
+    transition: border-color 0.2s ease;
+}
+
+.section[data-section="champions"] {
+    border-color: #2ea44f;
+}
+
+.section[data-section="retired"] {
+    border-color: #0969da;
+}
+
+.section[data-section="dead"] {
+    border-color: #cf222e;
+}
+
+.section h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}

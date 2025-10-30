@@ -1,0 +1,145 @@
+/* ============================================
+   BOUTONS - Styles des boutons et contrôles
+   ============================================ */
+
+.controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: #2ea44f;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c974b;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #0969da;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #0860ca;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: #1a7f37;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #1a7f37;
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: #cf222e;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #a40e26;
+    transform: translateY(-1px);
+}
+
+.add-btn {
+    width: 100%;
+    padding: 8px;
+    background: var(--bg-tertiary);
+    border: 2px dashed var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+    border-color: #0969da;
+    color: #0969da;
+    background: var(--hover-bg);
+}
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: #cf222e;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #ffebe9;
+    transform: scale(1.1);
+}
+
+.details-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.details-btn:hover {
+    background: var(--hover-bg);
+    transform: scale(1.1);
+}
+
+.remove-game {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #cf222e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.remove-game:hover {
+    background: #a40e26;
+    transform: scale(1.1);
+}

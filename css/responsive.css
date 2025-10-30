@@ -1,0 +1,35 @@
+/* ============================================
+   RESPONSIVE - Media queries pour mobile
+   ============================================ */
+
+@media (max-width: 768px) {
+    .games-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .stats-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .hall-of-fame {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .gen-stat-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .gen-stat-bar {
+        width: 100%;
+    }
+}

@@ -1,0 +1,165 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdate": "2025-10-30",
+    "generations": 9,
+    "totalPokemon": 1025,
+    "languages": ["fr", "en", "jp"]
+  },
+  "pokemon": {
+    "1": {
+      "fr": "Bulbizarre",
+      "en": "Bulbasaur",
+      "jp": "フシギダネ",
+      "type": ["Plante", "Poison"],
+      "gen": 1,
+      "baseStats": {
+        "hp": 45,
+        "attack": 49,
+        "defense": 49,
+        "spAttack": 65,
+        "spDefense": 65,
+        "speed": 45
+      }
+    },
+    "25": {
+      "fr": "Pikachu",
+      "en": "Pikachu",
+      "jp": "ピカチュウ",
+      "type": ["Électrik"],
+      "gen": 1,
+      "baseStats": {
+        "hp": 35,
+        "attack": 55,
+        "defense": 40,
+        "spAttack": 50,
+        "spDefense": 50,
+        "speed": 90
+      }
+    }
+  },
+  "moves": {
+    "1": {
+      "fr": "Écras'Face",
+      "en": "Pound",
+      "jp": "はたく",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "gen": 1
+    },
+    "33": {
+      "fr": "Charge",
+      "en": "Tackle",
+      "jp": "たいあたり",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "gen": 1
+    }
+  },
+  "items": {
+    "1": {
+      "fr": "Master Ball",
+      "en": "Master Ball",
+      "jp": "マスターボール",
+      "category": "ball",
+      "gen": 1,
+      "description": {
+        "fr": "Une Poké Ball qui ne rate jamais",
+        "en": "A Poké Ball that never fails"
+      }
+    },
+    "17": {
+      "fr": "Potion",
+      "en": "Potion",
+      "jp": "キズぐすり",
+      "category": "medicine",
+      "gen": 1,
+      "effect": "Restore 20 HP",
+      "description": {
+        "fr": "Restaure 20 PV",
+        "en": "Restores 20 HP"
+      }
+    }
+  },
+  "badges": {
+    "kanto": [
+      {
+        "id": 0,
+        "fr": "Badge Roche",
+        "en": "Boulder Badge",
+        "jp": "グレーバッジ",
+        "leader": {
+          "fr": "Pierre",
+          "en": "Brock"
+        },
+        "city": {
+          "fr": "Argenta",
+          "en": "Pewter City"
+        }
+      },
+      {
+        "id": 1,
+        "fr": "Badge Cascade",
+        "en": "Cascade Badge",
+        "jp": "ブルーバッジ",
+        "leader": {
+          "fr": "Ondine",
+          "en": "Misty"
+        },
+        "city": {
+          "fr": "Azuria",
+          "en": "Cerulean City"
+        }
+      }
+    ],
+    "johto": [
+      {
+        "id": 0,
+        "fr": "Badge Zéphyr",
+        "en": "Zephyr Badge",
+        "jp": "ウイングバッジ",
+        "leader": {
+          "fr": "Albert",
+          "en": "Falkner"
+        },
+        "city": {
+          "fr": "Mauville",
+          "en": "Violet City"
+        }
+      }
+    ]
+  },
+  "types": {
+    "Normal": {
+      "fr": "Normal",
+      "en": "Normal",
+      "color": "#A8A878"
+    },
+    "Feu": {
+      "fr": "Feu",
+      "en": "Fire",
+      "color": "#F08030"
+    },
+    "Eau": {
+      "fr": "Eau",
+      "en": "Water",
+      "color": "#6890F0"
+    },
+    "Plante": {
+      "fr": "Plante",
+      "en": "Grass",
+      "color": "#78C850"
+    },
+    "Électrik": {
+      "fr": "Électrik",
+      "en": "Electric",
+      "color": "#F8D030"
+    }
+  }
+}

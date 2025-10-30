@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenLock Tracker - Pokémon Challenge</title>
+    
+    <!-- Styles CSS modulaires -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/save-import.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================
+             HEADER - En-tête avec titre et contrôles
+             ============================================ -->
+        <header>
+            <h1>🎮 GenLock Tracker</h1>
+            <div style="display: flex; gap: 10px;">
+                <button class="theme-toggle" onclick="toggleLanguage()" title="Change language">
+                    <span id="langIcon">🇬🇧</span>
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================
+             NAVIGATION - Onglets principaux
+             ============================================ -->
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="switchTab('tracker')" data-tab="tracker">
+                🎮 Tracker
+            </button>
+            <button class="tab-btn" onclick="switchTab('stats')" data-tab="stats">
+                📊 Statistiques
+            </button>
+        </nav>
+
+        <!-- ============================================
+             ONGLET TRACKER - Gestion des jeux et Pokémon
+             ============================================ -->
+        <div id="trackerTab" class="tab-content active">
+            <!-- Boutons de contrôle -->
+            <div class="controls">
+                <button class="btn btn-primary" onclick="addGame()" data-i18n="btn.addGame">
+                    ➕ Add Game
+                </button>
+                <button class="btn btn-primary" onclick="document.getElementById('savFile').click()" data-i18n="btn.importSave">
+                    🎮 Import ROM Save
+                </button>
+                <input type="file" id="savFile" style="display: none" accept=".sav,.dst,.dsv,.sa1,.0" onchange="importSaveFile(event)">
+                <button class="btn btn-success" onclick="saveData()" data-i18n="btn.save">
+                    💾 Save
+                </button>
+                <button class="btn btn-secondary" onclick="exportAsImage()" data-i18n="btn.exportImage">
+                    📸 Export as Image
+                </button>
+                <button class="btn btn-secondary" onclick="exportData()" data-i18n="btn.exportJSON">
+                    📤 Export JSON
+                </button>
+                <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()" data-i18n="btn.importJSON">
+                    📥 Import JSON
+                </button>
+                <input type="file" id="importFile" style="display: none" accept=".json" onchange="importData(event)">
+                <button class="btn btn-danger" onclick="resetAll()" data-i18n="btn.reset">
+                    🔄 Reset All
+                </button>
+            </div>
+
+            <!-- Conteneur des jeux -->
+            <div class="main-content">
+                <div class="games-container" id="gamesContainer">
+                    <!-- Les jeux seront ajoutés ici dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Statistiques rapides -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalGames">0</div>
+                    <div class="stat-label" data-i18n="stats.games">Games</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalChampions">0</div>
+                    <div class="stat-label" data-i18n="stats.champions">Champions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalRetired">0</div>
+                    <div class="stat-label" data-i18n="stats.retired">Retired</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalDead">0</div>
+                    <div class="stat-label" data-i18n="stats.dead">Dead</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             ONGLET STATISTIQUES - Dashboard et analytics
+             ============================================ -->
+        <div id="statsTab" class="tab-content">
+            <div class="dashboard">
+                <h2 class="dashboard-title">📊 Dashboard GenLock</h2>
+                
+                <!-- Cartes de statistiques principales -->
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-card-icon">🎮</div>
+                        <div class="stat-card-content">
+                            <div class="stat-card-value" id="dashTotalGames">0</div>
+                            <div class="stat-card-label">Jeux Actifs</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon">🏆</div>
+                        <div class="stat-card-content">
+                            <div class="stat-card-value" id="dashTotalChampions">0</div>
+                            <div class="stat-card-label">Champions Actifs</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon">💀</div>
+                        <div class="stat-card-content">
+                            <div class="stat-card-value" id="dashTotalDead">0</div>
+                            <div class="stat-card-label">Fallen Heroes</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon">📈</div>
+                        <div class="stat-card-content">
+                            <div class="stat-card-value" id="dashSurvivalRate">0%</div>
+                            <div class="stat-card-label">Taux de Survie</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats par génération -->
+                <div class="stats-section">
+                    <h3>📊 Statistiques par Génération</h3>
+                    <div id="statsByGen" class="stats-by-gen"></div>
+                </div>
+
+                <!-- Top 10 Pokémon -->
+                <div class="stats-section">
+                    <h3>⭐ Top 10 Pokémon les plus utilisés</h3>
+                    <div id="topPokemon" class="top-pokemon-list"></div>
+                </div>
+
+                <!-- Hall of Fame -->
+                <div class="stats-section">
+                    <h3>🏆 Hall of Fame - Survivors</h3>
+                    <p class="section-description">Pokémon ayant survécu dans plusieurs jeux</p>
+                    <div id="hallOfFame" class="hall-of-fame"></div>
+                </div>
+
+                <!-- Fallen Heroes -->
+                <div class="stats-section">
+                    <h3>💀 Fallen Heroes</h3>
+                    <p class="section-description">Liste globale des Pokémon tombés au combat</p>
+                    <div id="fallenHeroes" class="fallen-heroes"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MODAL - Sélection de jeu
+         ============================================ -->
+    <div class="modal" id="addGameModal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 data-i18n="modal.selectGame">Select a Game</h2>
+                <button class="modal-close" onclick="closeModal()" data-i18n-title="modal.close" title="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="gameSelection" class="game-selection-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MODAL - Sélection de Pokémon
+         ============================================ -->
+    <div class="modal" id="addPokemonModal" onclick="if(event.target === this) closePokemonModal()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="modal.selectPokemon">Select a Pokémon</h2>
+                <button class="modal-close" onclick="closePokemonModal()" data-i18n-title="modal.close" title="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="pokemonSearch" data-i18n-placeholder="modal.searchPokemon" 
+                       placeholder="Search for a Pokémon..." 
+                       style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-tertiary); color: var(--text-primary);">
+                <div id="pokemonSelection" class="pokemon-selection-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MODAL - Détails Pokémon
+         ============================================ -->
+    <div class="modal pokemon-details-modal" id="pokemonDetailsModal" onclick="if(event.target === this) closePokemonDetailsModal()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Détails du Pokémon</h2>
+                <button class="modal-close" onclick="closePokemonDetailsModal()" title="Close">×</button>
+            </div>
+            <div class="modal-body" id="pokemonDetailsContent">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SCRIPTS - Chargement des modules JavaScript
+         ============================================ -->
+    
+    <!-- Internationalisation et parseurs -->
+    <script src="js/i18n.js"></script>
+    
+    <!-- ✅ PokeAPI - Intégration de l'API pour les sprites -->
+    <script src="js/pokeapi.js"></script>
+    
+    <!-- ✅ IMPORTANT: pokemon-data.js DOIT être chargé EN PREMIER -->
+    <!-- Car il définit PokemonData et pokemonNames utilisés partout -->
+    <script src="js/pokemon-data.js"></script>
+    
+    <script src="js/backend-api.js"></script>
+    <script src="js/pkhex-backend.js"></script>
+    <script src="js/savParser.js"></script>
+    <script src="js/save-importer.js"></script>
+    <script src="js/exportImage.js"></script>
+    
+    <!-- Modules de l'application (ordre important!) -->
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/pokemon.js"></script>
+    <script src="js/drag-drop.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/tabs.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/pokemon-details.js"></script>
+    
+    <!-- Initialisation (doit être en dernier) -->
+    <script src="js/init.js"></script>
+</body>
+</html>
