@@ -5,7 +5,7 @@
 const BackendAPI = {
         // Décommentez la ligne qui correspond à votre environnement
     // baseURL: 'http://localhost:3000/api', // Pour le développement local
-    baseURL: 'https://VOTRE_URL_RENDER.onrender.com/api', // Pour la production
+    baseURL: 'https://genlockformat.onrender.com/api', // Pour la production
     
     /**
      * Vérifie si le backend est disponible
