@@ -36,6 +36,9 @@
             <button class="tab-btn" onclick="switchTab('stats')" data-tab="stats">
                 📊 Statistiques
             </button>
+            <button class="tab-btn" onclick="switchTab('rules')" data-tab="rules">
+                📜 Règles
+            </button>
         </nav>
 
         <!-- ============================================
@@ -161,6 +164,36 @@
                     <p class="section-description">Liste globale des Pokémon tombés au combat</p>
                     <div id="fallenHeroes" class="fallen-heroes"></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             ONGLET RÈGLES - Explication du GenLocke
+             ============================================ -->
+        <div id="rulesTab" class="tab-content">
+            <div class="rules-container" style="padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                <h2 style="border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">📜 Règles du GenLocke</h2>
+                <p>Le GenLocke est une variante du Nuzlocke qui se joue sur plusieurs générations de jeux Pokémon. Les règles de base du Nuzlocke s'appliquent, avec des ajouts spécifiques pour lier les jeux entre eux.</p>
+
+                <h3 style="margin-top: 20px;">Règles Fondamentales (Nuzlocke)</h3>
+                <ul style="list-style-type: disc; padding-left: 20px;">
+                    <li><strong>Capture unique :</strong> Vous ne pouvez capturer que le premier Pokémon rencontré dans chaque nouvelle zone (route, grotte, etc.).</li>
+                    <li><strong>Mort permanente :</strong> Si un Pokémon est mis K.O., il est considéré comme "mort" et doit être relâché ou placé dans une boîte "Cimetière" pour ne plus jamais être utilisé.</li>
+                    <li><strong>Surnoms obligatoires :</strong> Vous devez donner un surnom à chaque Pokémon capturé pour renforcer le lien émotionnel.</li>
+                </ul>
+
+                <h3 style="margin-top: 20px;">Règles Spécifiques (GenLocke)</h3>
+                <ul style="list-style-type: disc; padding-left: 20px;">
+                    <li><strong>Héritage des Champions :</strong> À la fin d'un jeu (après avoir battu le Maître de la Ligue), les Pokémon survivants de votre équipe finale sont considérés comme des "Champions".</li>
+                    <li><strong>Transmission :</strong> Les "Champions" peuvent être "transmis" au jeu suivant de la série. Leurs descendants (généralement des œufs de leur première forme évolutive) commenceront l'aventure avec vous dans le nouveau jeu.</li>
+                    <li><strong>Continuité :</strong> Le but est de conserver une lignée de survivants à travers autant de générations que possible. Si vous perdez tous vos Pokémon (wipe), le GenLocke est terminé.</li>
+                </ul>
+
+                <h3 style="margin-top: 20px;">Clauses Optionnelles Populaires</h3>
+                <ul style="list-style-type: disc; padding-left: 20px;">
+                    <li><strong>Clause du Duplicata :</strong> Si votre première rencontre dans une zone est un Pokémon que vous avez déjà capturé (ou un membre de sa famille évolutive), vous pouvez ignorer cette rencontre et chercher jusqu'à en trouver un nouveau.</li>
+                    <li><strong>Clause du Shiny :</strong> Si vous rencontrez un Pokémon chromatique (shiny), vous êtes autorisé à le capturer, même si ce n'est pas votre première rencontre dans la zone.</li>
+                </ul>
             </div>
         </div>
     </div>
